@@ -37,6 +37,7 @@ namespace MacPartners.Domain.Models.Entities
         public DateTime CreatedAt { get; private set; }
         public DateTime? BlockedAt { get; private set; }
         public string Password { get; private set; }
+        public bool IsBlocked { get; private set; }
 
 
         public void Create(IRepository<User> repository)
@@ -54,6 +55,20 @@ namespace MacPartners.Domain.Models.Entities
         {
             if (IsValid)
                 repository.Update(this);
+        }
+
+        public void Block(IRepository<User> repository)
+        {
+            IsBlocked = true;
+            BlockedAt = DateTime.Now;
+            Update(repository);
+        }
+
+        public void Unblock(IRepository<User> repository)
+        {
+            IsBlocked = false;
+            BlockedAt = null;
+            Update(repository);
         }
     }
 }

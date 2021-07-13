@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MacPartners.Tests.Domain.Entities
+namespace MacPartners.Tests.Domain.Models.Entities
 {
     [TestClass]
     public class PartnerTests
@@ -49,6 +49,16 @@ namespace MacPartners.Tests.Domain.Entities
             partner.Block(_repository);
 
             Assert.IsTrue(partner.IsBlocked);
+        }
+
+        [TestMethod]
+        public void IfPartnerIsUnblocked()
+        {
+            var partner = _repository.ToList().FirstOrDefault();
+            partner.Block(_repository);
+            partner.Unblock(_repository);
+
+            Assert.IsFalse(partner.IsBlocked);
         }
     }
 }

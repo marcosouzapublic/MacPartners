@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MacPartners.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MacPartners.Infra.Services
 {
-    public class CrypterService
+    public class CrypterService : ICrypter
     {
         private readonly string key = "ThePalmeirasDontHaveClubWorldCup";//The key must be a string with 32 caracteres.
 

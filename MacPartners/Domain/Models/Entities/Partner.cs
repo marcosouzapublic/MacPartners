@@ -59,5 +59,12 @@ namespace MacPartners.Domain.Models
             BlockedAt = DateTime.Now;
             Update(repository);
         }
+
+        public void Unblock(IRepository<Partner> repository)
+        {
+            IsBlocked = false;
+            BlockedAt = null;
+            Update(repository);
+        }
     }
 }
