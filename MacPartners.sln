@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacPartners", "MacPartners\MacPartners.csproj", "{240630D1-421B-4246-9660-FDD4E4407DF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacPartners.Tests", "MacPartners.Tests\MacPartners.Tests.csproj", "{0DAF2E91-0CD5-4835-B206-D65476171308}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{240630D1-421B-4246-9660-FDD4E4407DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240630D1-421B-4246-9660-FDD4E4407DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240630D1-421B-4246-9660-FDD4E4407DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240630D1-421B-4246-9660-FDD4E4407DF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DAF2E91-0CD5-4835-B206-D65476171308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DAF2E91-0CD5-4835-B206-D65476171308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DAF2E91-0CD5-4835-B206-D65476171308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DAF2E91-0CD5-4835-B206-D65476171308}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5DFD8B8-8389-4494-BB12-1847A063CC4D}
+	EndGlobalSection
+EndGlobal
