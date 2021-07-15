@@ -1,6 +1,7 @@
 ﻿using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Models.Entities;
 using MacPartners.Domain.Models.ValueObjects;
+using MacPartners.Domain.Repositories;
 using MacPartners.Infra.Services;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace MacPartners.Tests.Infra.Repositories
 {
-    public class MockUserRepository : IRepository<User>
+    public class MockUserRepository : IUserRepository
     {
         private IList<User> _users;
         private ICrypter _crypter;
@@ -20,8 +21,8 @@ namespace MacPartners.Tests.Infra.Repositories
             _crypter = new CrypterService();
 
             _users = new List<User>();
-            _users.Add(new User("123456", new Person("Bruce", "Wayne", new Cpf("05839583898"), null, new Email("batman@justiceleague.com")), _crypter));
-            _users.Add(new User("789456123", new Person("Clark", "Kent", new Cpf("41598913816"), null, new Email("superman@justiceleague.com")), _crypter));
+            _users.Add(new User("123456", new Person("Bruce", "Wayne", new Cpf("05839583898"), null, new Email("batman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter));
+            _users.Add(new User("789456123", new Person("Clark", "Kent", new Cpf("41598913816"), null, new Email("superman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter));
         }
 
         public void Create(User user)
@@ -37,6 +38,11 @@ namespace MacPartners.Tests.Infra.Repositories
         public User Find(Guid id)
         {
             return _users.Where(u => u.Id == id).FirstOrDefault();
+        }
+
+        public void SaveChanges()
+        {
+            
         }
 
         public IList<User> ToList()

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<MacPartners.Domain.Models.Partner>
+
+@{
+    ViewData["Title"] = "Parceiros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col">
+        <h4>Parceiros</h4>
+    </div>
+    <div class="col">
+        <a asp-action="Create" style="float: right" class="btn btn-primary-mp shadow p-3 mb-5 bg-body rounded">
+            Novo
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+            </svg>
+        </a>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Telefone
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var partner in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => partner.Person.Name)
+                </td>
+                <td style="word-wrap: break-word" title="@partner.Person.Email.EmailAdress">
+                    @partner.Person.Email.ShortEmail()
+                </td>
+                <td>
+                    @partner.Person.Phone.ToString()
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-secondary" style="float:right" onclick="openOptionsMenuModal('@partner.Id', '@partner.Person.Name')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Options Menu Modal -->
+<div class="modal fade" id="options-menu-modal" tabindex="-1" aria-labelledby="options-menu-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="options-menu-header"></h5>
+                <span class="close-button" onclick="closeOptionsMenuModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <a class="menu-option btn btn-block btn-primary" asp-action="Edit">Editar</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a class="menu-option btn btn-block btn-danger" asp-action="Delete">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function openOptionsMenuModal(partnerId, partnerName) {
+            $('.menu-option').attr('asp-route-id', partnerId);
+            $('#options-menu-header').html('Parceiro: ' + partnerName);
+            $('#options-menu-modal').modal("show");
+        }
+
+        function closeOptionsMenuModal() {
+            $('#options-menu-modal').modal("toggle");
+        }
+    </script>
+}

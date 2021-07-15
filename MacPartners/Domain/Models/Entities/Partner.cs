@@ -30,7 +30,7 @@ namespace MacPartners.Domain.Models
 
         [Key]
         public Guid Id { get; private set; }
-        public Person Person { get; private set; }
+        public virtual Person Person { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? BlockedAt { get; private set; }
         public bool IsBlocked { get; private set; }

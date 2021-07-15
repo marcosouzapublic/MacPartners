@@ -29,5 +29,13 @@ namespace MacPartners.Domain.Models.ValueObjects
         [Key]
         public Guid Id { get; private set; }
         public string EmailAdress { get; private set; }
+
+        public string ShortEmail()
+        {
+            const int charFromBegin = 5;
+            const int charFromEnd = 4;
+
+            return EmailAdress.Substring(0, charFromBegin) + "***" + EmailAdress.Substring(EmailAdress.Length - charFromEnd, charFromEnd);
+        }
     }
 }

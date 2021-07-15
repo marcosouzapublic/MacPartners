@@ -1,6 +1,7 @@
 ﻿using Flunt.Notifications;
 using MacPartners.Domain.Models;
 using MacPartners.Domain.Models.Entities;
+using MacPartners.Domain.Models.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace MacPartners.Infra.Context
 {
     public class MacPartnersContext : DbContext
     {
-        protected MacPartnersContext(DbContextOptions<MacPartnersContext> options) : base(options)
+        public MacPartnersContext(DbContextOptions<MacPartnersContext> options) : base(options)
         {
         }
 

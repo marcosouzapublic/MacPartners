@@ -33,7 +33,7 @@ namespace MacPartners.Domain.Models.Entities
 
         [Key]
         public Guid Id { get; private set; }
-        public Person Person { get; private set; }
+        public virtual Person Person { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? BlockedAt { get; private set; }
         public string Password { get; private set; }

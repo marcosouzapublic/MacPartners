@@ -1,6 +1,12 @@
+using MacPartners.Domain.Interfaces;
+using MacPartners.Domain.Repositories;
+using MacPartners.Infra.Context;
+using MacPartners.Infra.Repositories;
+using MacPartners.Infra.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +30,18 @@ namespace MacPartners
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<MacPartnersContext>(
+                options => options
+                .UseSqlServer("name = ConnectionStrings:SQLServerContext")
+                .UseLazyLoadingProxies()
+            );
+
+            services.AddScoped<ICrypter, CrypterService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPartnerRepository, PartnerRepository>();
+
+            services.Configure<IISOptions>(options => {});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

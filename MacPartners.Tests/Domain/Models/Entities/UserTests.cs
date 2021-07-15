@@ -26,7 +26,7 @@ namespace MacPartners.Domain.Models.Entities.Tests
         [TestMethod()]
         public void IfUserIsCreated()
         {
-            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com")), _crypter);
+            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter);
             newUser.Create(_repository);
 
             Assert.IsNotNull(_repository.Find(newUser.Id));
@@ -63,7 +63,7 @@ namespace MacPartners.Domain.Models.Entities.Tests
         [TestMethod]
         public void IfUserPasswordIsEncrypted()
         {
-            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com")), _crypter);
+            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter);
 
             Assert.AreNotEqual("5554466", newUser.Password);
         }

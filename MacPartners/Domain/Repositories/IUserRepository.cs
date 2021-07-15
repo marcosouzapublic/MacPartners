@@ -9,5 +9,6 @@ namespace MacPartners.Domain.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {
+        void SaveChanges();
     }
 }

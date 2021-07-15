@@ -24,7 +24,7 @@ namespace MacPartners.Tests.Domain.Models.Entities
         public void IfPartnerIsCreated()
         {
             var currentPartnersCount = _repository.ToList().Count();
-            var partner = new Partner(new Person("Diana", "Princess", new Cpf("11111111180"), null, new Email("wonderwoman@justiceleague.com")));
+            var partner = new Partner(new Person("Diana", "Princess", new Cpf("11111111180"), null, new Email("wonderwoman@justiceleague.com"), new Phone("(15) 99111-1111")));
             partner.Create(_repository);
             var newPartnersCount = _repository.ToList().Count();
 
