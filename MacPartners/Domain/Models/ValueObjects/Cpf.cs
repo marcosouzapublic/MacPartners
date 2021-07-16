@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MacPartners.Domain.Models.ValueObjects
@@ -14,14 +15,17 @@ namespace MacPartners.Domain.Models.ValueObjects
         public Cpf(string number)
         {
             AddNotifications(new Contract<Notification>()
-               .IsNullOrEmpty(number, "Cpf", "O CPF da pessoa não pode ser vazio")
-           );
+               .IsNotNullOrEmpty(number, "Cpf", "O CPF da pessoa não pode ser vazio")
+            );
 
-            Number = number;
-            Id = Guid.NewGuid();
+            if(Notifications.Count == 0)
+            {
+                Number = number;
+                Id = Guid.NewGuid();
 
-            if (!IsValid())
-                AddNotification("Cpf", "O CPF é inválido");
+                if (!IsValid())
+                    AddNotification("Cpf", "O CPF é inválido");
+            }
         }
 
         [Key]
@@ -30,6 +34,10 @@ namespace MacPartners.Domain.Models.ValueObjects
 
         public bool IsValid()
         {
+
+            if (String.IsNullOrEmpty(Number))
+                return false;
+
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             string tempNumber;
@@ -73,6 +81,19 @@ namespace MacPartners.Domain.Models.ValueObjects
             digito = digito + resto.ToString();
 
             return Number.EndsWith(digito);
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .Append(Number.ToString().Substring(0, 3))
+                .Append('.')
+                .Append(Number.ToString().Substring(3, 3))
+                .Append('.')
+                .Append(Number.ToString().Substring(6, 3))
+                .Append('-')
+                .Append(Number.ToString().Substring(9, 2))
+                .ToString();
         }
     }
 }

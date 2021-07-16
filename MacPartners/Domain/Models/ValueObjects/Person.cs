@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace MacPartners.Domain.Models.ValueObjects
@@ -24,9 +25,11 @@ namespace MacPartners.Domain.Models.ValueObjects
 
             if (!cpf.IsValid())
                 AddNotification("Cpf", "O CPF é inválido");
-
-            if(!email.IsValid)
-                AddNotification("Email", "O e-mail é inválido");
+            else
+            {
+                if (!email.IsValid)
+                    AddNotification("Email", "O e-mail é inválido");
+            }            
 
             if(!phone.IsValid)
                 AddNotification("Phone", "O telefone é inválido");
@@ -48,5 +51,31 @@ namespace MacPartners.Domain.Models.ValueObjects
         public DateTime? Birthday { get; private set; }
         public virtual Email Email { get; private set; }
         public virtual Phone Phone { get; private set; }
+        
+        public void ChangeName(string name)
+        {
+            if (!String.IsNullOrEmpty(name))
+                Name = name;
+            else
+                AddNotification("Name", "O nome não pode ser vazio");
+        }
+
+        public void ChangeLastName(string lastName)
+        {
+            if (!String.IsNullOrEmpty(lastName))
+                LastName = lastName;
+            else
+                AddNotification("Name", "O sobrenome não pode ser vazio");
+        }
+
+        public void ChangeBirthday(DateTime? birthday)
+        {
+            Birthday = birthday;
+        }
+
+        public void ChangePhone(string phone)
+        {
+            Phone.ChangePhone(phone);
+        }
     }
 }

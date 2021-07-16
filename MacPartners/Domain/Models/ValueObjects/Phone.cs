@@ -52,13 +52,30 @@ namespace MacPartners.Domain.Models.ValueObjects
 
         public override string ToString()
         {
-            return new StringBuilder()
+            if (Number.ToString().Length == 8)
+            {
+                return new StringBuilder()
                 .Append('(')
                 .Append(AreaCode)
                 .Append(')')
                 .Append(' ')
-                .Append(Number)
+                .Append(Number.ToString().Substring(0,4))
+                .Append('-')
+                .Append(Number.ToString().Substring(4,4))
                 .ToString();
+            }
+            else
+            {
+                return new StringBuilder()
+                .Append('(')
+                .Append(AreaCode)
+                .Append(')')
+                .Append(' ')
+                .Append(Number.ToString().Substring(0, 5))
+                .Append('-')
+                .Append(Number.ToString().Substring(5, 4))
+                .ToString();
+            }
         }
 
         public int ExtractAreaCode(string phoneNumber)
@@ -84,6 +101,18 @@ namespace MacPartners.Domain.Models.ValueObjects
                 .Replace("-", "");
 
             return phoneNumber;
+        }
+
+        public void ChangePhone(string phoneNumber)
+        {
+            if (String.IsNullOrEmpty(phoneNumber) || !Regex.Match(phoneNumber, @"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$").Success)
+                AddNotification("Number", "Número de telefone inválido");
+
+            if (IsValid)
+            {
+                AreaCode = ExtractAreaCode(phoneNumber);
+                Number = ExtractNumber(phoneNumber);
+            }                
         }
     }
 }

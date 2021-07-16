@@ -12,22 +12,36 @@ namespace MacPartners.Controllers
     public class PartnersController : Controller
     {
         private readonly CreatePartnerCommand _createCommand;
-        private readonly CreateUserCommand _createUserCommand;
+        private readonly EditPartnerCommand _editCommand;
+        private readonly BlockPartnerCommand _blockCommand;
         private readonly PartnersQueries _queries;
         private readonly UsersController _usersController;
+        private readonly IPartnerRepository _repository;
 
         public PartnersController(IPartnerRepository repository, IUserRepository _userRepository, ICrypter crypter)
         {
-            _createCommand = new CreatePartnerCommand(repository);
-            _createUserCommand = new CreateUserCommand(_userRepository, crypter);
-            _queries = new PartnersQueries(repository);
+            _repository = repository;
+            _queries = new PartnersQueries(_repository);
+            _createCommand = new CreatePartnerCommand(_repository, _queries);
+            _editCommand = new EditPartnerCommand(_repository);
+            _blockCommand = new BlockPartnerCommand(_repository, _userRepository);
             _usersController = new UsersController(_userRepository, crypter);
         }
 
         // GET: Partners
-        public IActionResult Index()
+        public IActionResult Index(string errorMessage, string status)
         {
+            ViewBag.ErrorMessage = errorMessage;
+            ViewBag.Status = status;
+
             return View(_queries.UnblockedPartners());
+        }
+
+        public PartialViewResult _BlockedPartners()
+        {
+            ViewBag.BlockedPartners = _queries.BlockedPartners();
+
+            return PartialView();
         }
 
         // GET: Partners/Create
@@ -50,91 +64,79 @@ namespace MacPartners.Controllers
                 return RedirectToAction("Index");
             else
             {
-                ViewBag.Person = person;
+                ViewBag.Name = name;
+                ViewBag.LastName = lastName;
+                ViewBag.Cpf = cpf;
+                ViewBag.Birthday = birthday;
+                ViewBag.Email = email;
+                ViewBag.Phone = phone;
                 ViewBag.ErrorMessage = transactionResult.Message;
                 ViewBag.Status = transactionResult.Status;
                 return View();
             }
         }
 
-        //// GET: Partners/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Partners/Edit/5
+        public IActionResult Edit(Guid id)
+        {
+            var partner = _repository.Find(id);
 
-        //    var partner = await _context.Partners.FindAsync(id);
-        //    if (partner == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(partner);
-        //}
+            return View(partner);
+        }
 
-        //// POST: Partners/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,CreatedAt,BlockedAt,IsBlocked")] Partner partner)
-        //{
-        //    if (id != partner.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Partners/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Guid id, string name, string lastName, DateTime? birthday, string phone)
+        {
+            var partner = _repository.Find(id);
+            partner.EditPerson(name, lastName, phone, birthday);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(partner);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!PartnerExists(partner.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(partner);
-        //}
+            var transactionResult = _editCommand.EditPartner(partner);
 
-        //// GET: Partners/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (transactionResult.Status == TransactionStatus.Success)
+                return RedirectToAction("Index");
+            else
+            {
+                ViewBag.ErrorMessage = transactionResult.Message;
+                ViewBag.Status = transactionResult.Status;
+                ViewBag.Name = name;
+                ViewBag.LastName = lastName;
+                ViewBag.Birthday = birthday;
+                ViewBag.Phone = phone;
+                return View(partner);
+            }
+        }
 
-        //    var partner = await _context.Partners
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (partner == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Partners/Block/5
+        [HttpGet, ActionName("Block")]
+        public IActionResult Block(Guid id)
+        {
+            var partner = _repository.Find(id);
+            var transactionResult = _blockCommand.BlockPartner(partner);
 
-        //    return View(partner);
-        //}
+            if (transactionResult.Status == TransactionStatus.Success)
+                return RedirectToAction("Index");
+            else
+            {
+                return RedirectToAction("Index", new {errorMessage = transactionResult.Message, status = transactionResult.Status});
+            }
 
-        //// POST: Partners/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //{
-        //    var partner = await _context.Partners.FindAsync(id);
-        //    _context.Partners.Remove(partner);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Partners/Unblock/5
+        [Route("{id:Guid}")]
+        [HttpGet, ActionName("Unblock")]
+        public IActionResult Unblock(Guid id)
+        {
+            var partner = _repository.Find(id);
+            partner.Unblock(_repository);
+            _repository.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

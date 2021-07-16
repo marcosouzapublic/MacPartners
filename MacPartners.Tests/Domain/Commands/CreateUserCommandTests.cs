@@ -22,11 +22,13 @@ namespace MacPartners.Domain.Commands.Tests
         private readonly User _errorUser;
         private readonly CreateUserCommand _command;
         private readonly Person _person;
+        private readonly Person _personError;
         private readonly ICrypter _crypter;
 
         public CreateUserCommandTests()
         {
             _person = new Person("Bruce", "Wayne", new Cpf("41598913816"), null, new Email("batman@justiceleague.com"), new Phone("(11) 3333-3333"));
+            _personError = new Person("Bruce", "Wayne", new Cpf("41598913816"), null, new Email(""), new Phone("(11) 3333-3333"));
             _crypter = new CrypterService();
             _repository = new MockUserRepository();
             _command = new CreateUserCommand(_repository, _crypter);
@@ -35,7 +37,7 @@ namespace MacPartners.Domain.Commands.Tests
         [TestMethod()]
         public void CreateUserTest()
         {
-            var result = _command.CreateUser("bAtman123", _person);
+            var result = _command.CreateUser(_person);
 
             Assert.IsTrue(result.Status == Models.Enums.TransactionStatus.Success);
         }
@@ -43,7 +45,7 @@ namespace MacPartners.Domain.Commands.Tests
         [TestMethod()]
         public void CreateUserErrorTest()
         {
-            var result = _command.CreateUser(null, _person);
+            var result = _command.CreateUser(_personError);
 
             Assert.IsTrue(result.Status == Models.Enums.TransactionStatus.Error);
         }

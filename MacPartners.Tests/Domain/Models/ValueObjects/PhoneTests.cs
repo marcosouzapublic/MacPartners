@@ -21,7 +21,7 @@ namespace MacPartners.Domain.Models.ValueObjects.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            Assert.AreEqual(_phone.ToString(), "(15) 33312700");
+            Assert.AreEqual(_phone.ToString(), "(15) 3331-2700");
         }
 
         [TestMethod()]
@@ -40,6 +40,14 @@ namespace MacPartners.Domain.Models.ValueObjects.Tests
         public void ClearPhoneNumberTest()
         {
             Assert.AreEqual(_phone.ClearPhoneNumber("(15) 3331-2700"), "1533312700");
+        }
+
+        [TestMethod()]
+        public void ChangePhoneTest()
+        {
+            _phone.ChangePhone("(15) 99173-7345");
+
+            Assert.AreEqual(_phone.ToString(), "(15) 99173-7345");
         }
     }
 }

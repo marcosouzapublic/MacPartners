@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MacPartners.Domain.Models
@@ -65,6 +66,26 @@ namespace MacPartners.Domain.Models
             IsBlocked = false;
             BlockedAt = null;
             Update(repository);
+        }
+
+        public void EditPerson(string name, string lastName, string phone, DateTime? birthday)
+        {
+            if (String.IsNullOrEmpty(name))
+                AddNotification("Name", "O nome não pode ser vazio");
+
+            if (String.IsNullOrEmpty(lastName))
+                AddNotification("Name", "O sobrenome não pode ser vazio");
+                
+            if (String.IsNullOrEmpty(phone) || !Regex.Match(phone, @"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$").Success)
+                AddNotification("Number", "Número de telefone inválido");
+
+            if (IsValid)
+            {
+                Person.ChangeName(name);
+                Person.ChangeLastName(lastName);
+                Person.Phone.ChangePhone(phone);
+                Person.ChangeBirthday(birthday);
+            }
         }
     }
 }

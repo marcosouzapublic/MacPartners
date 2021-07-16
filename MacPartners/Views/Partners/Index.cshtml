@@ -20,45 +20,56 @@
     </div>
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>
-                Nome
-            </th>
-            <th>
-                E-mail
-            </th>
-            <th>
-                Telefone
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var partner in Model)
-        {
+<ul class="nav nav-tabs">
+    <li class="nav-item" id="unblocked-partners-item">
+        <a class="nav-link active" aria-current="page" id="unblocked-partners-tab">Parceiros Ativos</a>
+    </li>
+    <li class="nav-item" id="blocked-partners-item">
+        <a class="nav-link" id="blocked-partners-tab">Bloqueados</a>
+    </li>
+</ul>
+
+<div id="partners-container">
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => partner.Person.Name)
-                </td>
-                <td style="word-wrap: break-word" title="@partner.Person.Email.EmailAdress">
-                    @partner.Person.Email.ShortEmail()
-                </td>
-                <td>
-                    @partner.Person.Phone.ToString()
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-secondary" style="float:right" onclick="openOptionsMenuModal('@partner.Id', '@partner.Person.Name')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                        </svg>
-                    </button>
-                </td>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    E-mail
+                </th>
+                <th>
+                    Telefone
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var partner in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => partner.Person.Name)
+                    </td>
+                    <td style="word-wrap: break-word" title="@partner.Person.Email.EmailAdress">
+                        @partner.Person.Email.ShortEmail()
+                    </td>
+                    <td>
+                        @partner.Person.Phone.ToString()
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" style="float:right" onclick="openOptionsMenuModal('@partner.Id', '@partner.Person.Name', '@partner.IsBlocked')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <!-- Options Menu Modal -->
 <div class="modal fade" id="options-menu-modal" tabindex="-1" aria-labelledby="options-menu-label" aria-hidden="true">
@@ -79,9 +90,14 @@
                         <a class="menu-option btn btn-block btn-primary" asp-action="Edit">Editar</a>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="block-row">
                     <div class="col">
-                        <a class="menu-option btn btn-block btn-danger" asp-action="Delete">Excluir</a>
+                        <a class="menu-option btn btn-block btn-danger" asp-action="Block">Bloquear</a>
+                    </div>
+                </div>
+                <div class="row" id="unblock-row">
+                    <div class="col">
+                        <a class="menu-option btn btn-block btn-success" asp-action="Unblock">Desbloquear</a>
                     </div>
                 </div>
             </div>
@@ -91,15 +107,74 @@
 
 
 @section Scripts{
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/Notifications/flunt-notifications.js"></script>
+
     <script>
-        function openOptionsMenuModal(partnerId, partnerName) {
-            $('.menu-option').attr('asp-route-id', partnerId);
+        $(document).ready(() => {
+            if ('@ViewBag.Status' == 'Error')
+            {
+                showFluntNotifications('@ViewBag.ErrorMessage', 'cadastrar', 'Parceiro');
+            }
+        });
+    </script>
+
+    <script>
+        $('#blocked-partners-item').click(() => {
+            renderBlockedPartners();
+        });
+
+        $('#unblocked-partners-item').click(() => {
+            window.location.reload();
+        });
+
+        function renderBlockedPartners() {
+            $.ajax({
+                url: '/Partners/_BlockedPartners',
+                type: 'GET',
+                success: function (data) {
+                    $('#partners-container').html(data);
+                    ajustTabActive('blocked-partners-tab');
+                },
+            });
+        }
+
+        function ajustTabActive(tabActiveId) {
+            $('.nav-link').removeClass('active');
+            $('#' + tabActiveId).addClass('active');
+        }
+    </script>
+
+    <script>
+        function openOptionsMenuModal(partnerId, partnerName, isBlocked) {
             $('#options-menu-header').html('Parceiro: ' + partnerName);
             $('#options-menu-modal').modal("show");
+            ajustMenuOptionsHref(partnerId);
+            showHideBlockUnblock(isBlocked);
+        }
+
+        function showHideBlockUnblock(isBlocked) {
+            if (isBlocked === 'True') {
+                $('#block-row').css('display', 'none');
+                $('#unblock-row').css('display', 'block');
+            } else {
+                $('#block-row').css('display', 'block');
+                $('#unblock-row').css('display', 'none');
+            }
         }
 
         function closeOptionsMenuModal() {
             $('#options-menu-modal').modal("toggle");
+        }
+
+        function ajustMenuOptionsHref(partnerId) {
+            $(".menu-option").each(function () {
+
+                let curHref = $(this).attr('href');
+
+                $(this).attr('href', curHref + '/' + partnerId);
+            });
         }
     </script>
 }

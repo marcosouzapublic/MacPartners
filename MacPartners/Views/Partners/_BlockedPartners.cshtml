@@ -1,0 +1,43 @@
+﻿@{
+    var partners = ViewBag.BlockedPartners as List<MacPartners.Domain.Models.Partner>;
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Telefone
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var partner in partners)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => partner.Person.Name)
+                </td>
+                <td style="word-wrap: break-word" title="@partner.Person.Email.EmailAdress">
+                    @partner.Person.Email.ShortEmail()
+                </td>
+                <td>
+                    @partner.Person.Phone.ToString()
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-secondary" style="float:right" onclick="openOptionsMenuModal('@partner.Id', '@partner.Person.Name', '@partner.IsBlocked')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -36,5 +36,19 @@ namespace MacPartners.Domain.Queries
 
             return partners;
         }
+
+        public bool IsPartnerAlreadRegistredByCpf(string cpf)
+        {
+            var partners = _repository.ToList(p => p.Person.Cpf.Number.Equals(cpf.Replace(".", "").Replace("-","")));
+
+            return partners.Count > 0;
+        }
+
+        public bool IsPartnerAlreadRegistredByEmail(string email)
+        {
+            var partners = _repository.ToList(p => p.Person.Email.EmailAdress.Equals(email));
+
+            return partners.Count > 0;
+        }
     }
 }

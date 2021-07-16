@@ -39,5 +39,11 @@ namespace MacPartners.Domain.Models.ValueObjects.Tests
         {
             Assert.IsFalse(_invalidCpf.IsValid());
         }
+
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            Assert.AreEqual(_cpf.ToString(), "415.989.138-16");
+        }
     }
 }
