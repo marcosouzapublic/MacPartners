@@ -115,7 +115,7 @@
         $(document).ready(() => {
             if ('@ViewBag.Status' == 'Error')
             {
-                showFluntNotifications('@ViewBag.ErrorMessage', 'cadastrar', 'Parceiro');
+                showFluntNotifications('@ViewBag.ErrorMessage', 'listar', 'Parceiros');
             }
         });
     </script>
@@ -131,7 +131,7 @@
 
         function renderBlockedPartners() {
             $.ajax({
-                url: '/Partners/_BlockedPartners',
+                url: 'https://@Context.Request.Host/Partners/_BlockedPartners',
                 type: 'GET',
                 success: function (data) {
                     $('#partners-container').html(data);

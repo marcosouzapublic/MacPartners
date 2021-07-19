@@ -29,10 +29,9 @@ namespace MacPartners.Controllers
         }
 
         // GET: Partners
-        public IActionResult Index(string errorMessage, string status)
+        public IActionResult Index(string errorMessage, TransactionStatus status = TransactionStatus.Success)
         {
-            ViewBag.ErrorMessage = errorMessage;
-            ViewBag.Status = status;
+            ViewBag.ErrorMessage = errorMessage != null? errorMessage : "";
 
             return View(_queries.UnblockedPartners());
         }
@@ -110,7 +109,6 @@ namespace MacPartners.Controllers
             }
         }
 
-        // POST: Partners/Block/5
         [HttpGet, ActionName("Block")]
         public IActionResult Block(Guid id)
         {
@@ -123,20 +121,20 @@ namespace MacPartners.Controllers
             {
                 return RedirectToAction("Index", new {errorMessage = transactionResult.Message, status = transactionResult.Status});
             }
-
-            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Partners/Unblock/5
-        [Route("{id:Guid}")]
         [HttpGet, ActionName("Unblock")]
         public IActionResult Unblock(Guid id)
         {
             var partner = _repository.Find(id);
-            partner.Unblock(_repository);
-            _repository.SaveChanges();
+            var transactionResult = _blockCommand.UnblockPartner(partner);
 
-            return RedirectToAction(nameof(Index));
+            if (transactionResult.Status == TransactionStatus.Success)
+                return RedirectToAction("Index");
+            else
+            {
+                return RedirectToAction("Index", new { errorMessage = transactionResult.Message, status = transactionResult.Status });
+            }
         }
     }
 }

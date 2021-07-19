@@ -1,0 +1,35 @@
+﻿@{
+    var users = ViewBag.BlockedUsers as List<MacPartners.Domain.Models.Entities.User>;
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Sobrenome
+            </th>
+            <th>
+                E-mail
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in users)
+        {
+            <tr>
+                <td>
+                    @user.Person.Name
+                </td>
+                <td>
+                    @user.Person.LastName
+                </td>
+                <td>
+                    @user.Person.Email.ShortEmail()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

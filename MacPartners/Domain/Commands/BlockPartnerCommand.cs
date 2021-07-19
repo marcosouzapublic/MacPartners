@@ -45,11 +45,11 @@ namespace MacPartners.Domain.Commands
         {
             try
             {
-                //1 - Blocking partner
+                //1 - Unblocking partner
                 partner.Unblock(_partnerRepository);
                 _partnerRepository.SaveChanges();
 
-                //2 - Blocking user
+                //2 - Unblocking user
                 var user = _userRepository.ToList(u => u.Person == partner.Person).FirstOrDefault();
                 user.Unblock(_userRepository);
                 _userRepository.SaveChanges();

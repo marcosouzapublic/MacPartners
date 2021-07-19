@@ -33,6 +33,14 @@ namespace MacPartners.Controllers
             return View(_queries.UnblockedUsers());
         }
 
+        [HttpGet]
+        public PartialViewResult _BlockedUsers()
+        {
+            ViewBag.BlockedUsers = _queries.BlockedUsers();
+
+            return PartialView();
+        }
+
         // GET: Users/Details/5
         //public async Task<IActionResult> Details(Guid? id)
         //{
