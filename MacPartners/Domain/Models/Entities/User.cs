@@ -1,5 +1,6 @@
 ﻿using Flunt.Notifications;
 using MacPartners.Domain.Interfaces;
+using MacPartners.Domain.Models.Enums;
 using MacPartners.Domain.Models.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace MacPartners.Domain.Models.Entities
 
         }
 
-        public User(string password, Person person, ICrypter crypter)
+        public User(string password, Person person, ICrypter crypter, EUserRole userRole)
         {
             if (String.IsNullOrEmpty(password)) 
             {
@@ -27,6 +28,7 @@ namespace MacPartners.Domain.Models.Entities
                 CreatedAt = DateTime.Now;
                 Password = crypter.Encrypt(password);
                 Person = person;
+                UserRole = userRole;
                 Id = Guid.NewGuid();
             }
         }
@@ -38,6 +40,7 @@ namespace MacPartners.Domain.Models.Entities
         public DateTime? BlockedAt { get; private set; }
         public string Password { get; private set; }
         public bool IsBlocked { get; private set; }
+        public EUserRole UserRole { get; private set; }
 
 
         public void Create(IRepository<User> repository)
@@ -68,6 +71,12 @@ namespace MacPartners.Domain.Models.Entities
         {
             IsBlocked = false;
             BlockedAt = null;
+            Update(repository);
+        }
+
+        public void ChangePassword(string password, ICrypter crypter, IRepository<User> repository)
+        {
+            Password = crypter.Encrypt(password);
             Update(repository);
         }
     }

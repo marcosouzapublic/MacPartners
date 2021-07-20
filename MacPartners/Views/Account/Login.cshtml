@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Login</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div class="form-group">
+                <label class="control-label">E-mail</label>
+                <input name="email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Senha</label>
+                <input name="password" type="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Entrar" class="btn btn-primary-mp btn-lg" />
+            </div>
+            <a asp-controller="Account" asp-action="ForgotMyPassword" class="btn btn-block link-mp">Esqueci minha senha</a>
+        </form>
+    </div>
+</div>

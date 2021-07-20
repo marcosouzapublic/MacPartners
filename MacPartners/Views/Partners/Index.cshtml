@@ -131,7 +131,7 @@
 
         function renderBlockedPartners() {
             $.ajax({
-                url: 'https://@Context.Request.Host/Partners/_BlockedPartners',
+                url: '/macpartners/Partners/_BlockedPartners',
                 type: 'GET',
                 success: function (data) {
                     $('#partners-container').html(data);

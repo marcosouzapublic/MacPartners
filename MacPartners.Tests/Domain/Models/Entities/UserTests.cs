@@ -8,6 +8,7 @@ using MacPartners.Tests.Infra.Repositories;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Infra.Services;
 using System.Linq;
+using MacPartners.Domain.Models.Enums;
 
 namespace MacPartners.Domain.Models.Entities.Tests
 {
@@ -26,7 +27,7 @@ namespace MacPartners.Domain.Models.Entities.Tests
         [TestMethod()]
         public void IfUserIsCreated()
         {
-            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter);
+            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter, EUserRole.Partner);
             newUser.Create(_repository);
 
             Assert.IsNotNull(_repository.Find(newUser.Id));
@@ -63,9 +64,20 @@ namespace MacPartners.Domain.Models.Entities.Tests
         [TestMethod]
         public void IfUserPasswordIsEncrypted()
         {
-            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter);
+            var newUser = new User("5554466", new Person("Berry", "Allen", new Cpf("11111111180"), null, new Email("flash@justiceleague.com"), new Phone("15991111111")), _crypter, EUserRole.Partner);
 
             Assert.AreNotEqual("5554466", newUser.Password);
+        }
+
+        [TestMethod()]
+        public void ChangePasswordTest()
+        {
+            var user = _repository.ToList().FirstOrDefault();
+            var curPassword = user.Password;
+
+            user.ChangePassword("1234", _crypter, _repository);
+            
+            Assert.AreNotEqual(curPassword, user.Password);
         }
     }
 }

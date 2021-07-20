@@ -50,5 +50,12 @@ namespace MacPartners.Domain.Queries
 
             return partners.Count > 0;
         }
+
+        public Partner PartnerByUserEmail(string userEmail)
+        {
+            var partners = _repository.ToList(p => p.Person.Email.EmailAdress.Equals(userEmail));
+
+            return partners.FirstOrDefault();
+        }
     }
 }

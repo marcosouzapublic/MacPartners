@@ -1,5 +1,6 @@
 ﻿using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Models.Entities;
+using MacPartners.Domain.Models.Enums;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Repositories;
 using MacPartners.Infra.Services;
@@ -21,8 +22,8 @@ namespace MacPartners.Tests.Infra.Repositories
             _crypter = new CrypterService();
 
             _users = new List<User>();
-            _users.Add(new User("123456", new Person("Bruce", "Wayne", new Cpf("05839583898"), null, new Email("batman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter));
-            _users.Add(new User("789456123", new Person("Clark", "Kent", new Cpf("41598913816"), null, new Email("superman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter));
+            _users.Add(new User("123456", new Person("Bruce", "Wayne", new Cpf("05839583898"), null, new Email("batman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter, EUserRole.Partner));
+            _users.Add(new User("789456123", new Person("Clark", "Kent", new Cpf("41598913816"), null, new Email("superman@justiceleague.com"), new Phone("(15) 9911-11111")), _crypter, EUserRole.Partner));
         }
 
         public void Create(User user)
@@ -38,6 +39,16 @@ namespace MacPartners.Tests.Infra.Repositories
         public User Find(Guid id)
         {
             return _users.Where(u => u.Id == id).FirstOrDefault();
+        }
+
+        public User Find(string email, string password)
+        {
+            return _users.Where(u => u.Person.Email.EmailAdress == email && u.Password == password).FirstOrDefault();
+        }
+
+        public User Find(string email)
+        {
+            return _users.Where(u => u.Person.Email.EmailAdress == email).FirstOrDefault();
         }
 
         public void SaveChanges()

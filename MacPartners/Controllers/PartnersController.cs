@@ -6,9 +6,11 @@ using MacPartners.Domain.Queries;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Models.Enums;
 using MacPartners.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MacPartners.Controllers
 {
+    [Authorize(Roles = ("Administrator"))]
     public class PartnersController : Controller
     {
         private readonly CreatePartnerCommand _createCommand;

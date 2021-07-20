@@ -18,6 +18,7 @@ namespace MacPartners.Infra.Context
 
         public DbSet<Partner> Partners { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

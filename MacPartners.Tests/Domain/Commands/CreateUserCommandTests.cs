@@ -11,6 +11,7 @@ using MacPartners.Tests.Infra.Repositories;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Interfaces;
 using MacPartners.Infra.Services;
+using MacPartners.Domain.Models.Enums;
 
 namespace MacPartners.Domain.Commands.Tests
 {
@@ -37,7 +38,7 @@ namespace MacPartners.Domain.Commands.Tests
         [TestMethod()]
         public void CreateUserTest()
         {
-            var result = _command.CreateUser(_person);
+            var result = _command.CreateUser(_person, EUserRole.Partner);
 
             Assert.IsTrue(result.Status == Models.Enums.TransactionStatus.Success);
         }
@@ -45,7 +46,7 @@ namespace MacPartners.Domain.Commands.Tests
         [TestMethod()]
         public void CreateUserErrorTest()
         {
-            var result = _command.CreateUser(_personError);
+            var result = _command.CreateUser(_personError, EUserRole.Partner);
 
             Assert.IsTrue(result.Status == Models.Enums.TransactionStatus.Error);
         }

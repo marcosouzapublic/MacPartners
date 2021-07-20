@@ -5,9 +5,12 @@ using MacPartners.Domain.Repositories;
 using MacPartners.Domain.Commands;
 using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Queries;
+using MacPartners.Domain.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MacPartners.Controllers
 {
+    [Authorize(Roles = ("Administrator"))]
     public class UsersController : Controller
     {
         private readonly IUserRepository _repository;
@@ -24,7 +27,7 @@ namespace MacPartners.Controllers
         [HttpPost]
         public TransactionResponse<User> CreateAfterPartner(Person person)
         {
-            return _createCommand.CreateUser(person);
+            return _createCommand.CreateUser(person, EUserRole.Partner);
         }
 
         //GET: Users

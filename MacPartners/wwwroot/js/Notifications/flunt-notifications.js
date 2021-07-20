@@ -5,3 +5,12 @@
         'error'
     )
 }
+
+
+function showSuccessMessage(message) {
+    Swal.fire(
+        'Pronto!',
+        message,
+        'success'
+    )
+}

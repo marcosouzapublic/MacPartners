@@ -52,5 +52,15 @@ namespace MacPartners.Infra.Repositories
         {
             _context.SaveChanges();
         }
+
+        public User Find(string email, string password)
+        {
+            return _context.Users.Where(u => u.Person.Email.EmailAdress == email && u.Password == password).FirstOrDefault();
+        }
+
+        public User Find(string email)
+        {
+            return _context.Users.Where(u => u.Person.Email.EmailAdress == email).FirstOrDefault();
+        }
     }
 }

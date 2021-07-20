@@ -1,5 +1,6 @@
 ﻿using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Models.Entities;
+using MacPartners.Domain.Models.Enums;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Repositories;
 using System;
@@ -17,11 +18,11 @@ namespace MacPartners.Domain.Commands
             _crypter = crypter;
         }
 
-        public TransactionResponse<User> CreateUser(Person person)
+        public TransactionResponse<User> CreateUser(Person person, EUserRole userRole)
         {
             try
             {
-                var user = new User(person.Email.EmailAdress, person, _crypter);
+                var user = new User(person.Email.EmailAdress, person, _crypter, userRole);
                 user.Create(_repository);
                 _repository.SaveChanges();
 
