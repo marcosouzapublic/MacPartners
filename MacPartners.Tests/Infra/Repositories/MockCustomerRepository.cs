@@ -1,4 +1,5 @@
 ﻿using MacPartners.Domain.Models;
+using MacPartners.Domain.Models.Entities;
 using MacPartners.Domain.Models.Enums;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Repositories;

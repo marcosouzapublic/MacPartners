@@ -4,14 +4,16 @@ using MacPartners.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MacPartners.Migrations
 {
     [DbContext(typeof(MacPartnersContext))]
-    partial class MacPartnersContextModelSnapshot : ModelSnapshot
+    [Migration("20210720165958_customers")]
+    partial class customers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

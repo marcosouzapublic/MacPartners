@@ -19,10 +19,10 @@ namespace MacPartners.Domain.Models.ValueObjects
         {
             AddNotifications(zipCode.Notifications);
             AddNotifications(new Contract<Notification>()
-                .IsNullOrEmpty(street, "Street", "O logradouro não pode ser vazio")
-                .IsNullOrEmpty(number, "Number", "O número não pode ser vazio")
-                .IsNullOrEmpty(district, "District", "O bairro não pode ser vazio")
-                .IsNullOrEmpty(city, "City", "A cidade não pode ser vazia")
+                .IsNotNullOrEmpty(street, "Street", "O logradouro não pode ser vazio")
+                .IsNotNullOrEmpty(number, "Number", "O número não pode ser vazio")
+                .IsNotNullOrEmpty(district, "District", "O bairro não pode ser vazio")
+                .IsNotNullOrEmpty(city, "City", "A cidade não pode ser vazia")
             );
 
             if (IsValid)

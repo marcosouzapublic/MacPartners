@@ -34,7 +34,7 @@ namespace MacPartners.Domain.Models.ValueObjects
 
         public Phone(string phoneNumber)
         {
-            if (String.IsNullOrEmpty(phoneNumber) || !Regex.Match(phoneNumber, @"^\d{5}-\d{3}$").Success)
+            if (String.IsNullOrEmpty(phoneNumber) || !Regex.Match(phoneNumber, @"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$").Success)
                 AddNotification("Number", "Número de telefone inválido");
 
             if (IsValid)

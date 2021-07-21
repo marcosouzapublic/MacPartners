@@ -3,7 +3,7 @@ using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Models.ValueObjects;
 using System;
 
-namespace MacPartners.Domain.Models
+namespace MacPartners.Domain.Models.Entities
 {
     public class Customer : Notifiable<Notification>, IEntity<Customer>
     {
@@ -54,17 +54,19 @@ namespace MacPartners.Domain.Models
 
         public void Create(IRepository<Customer> repository)
         {
-            throw new NotImplementedException();
+            if(IsValid)
+                repository.Create(this);
         }
 
         public void Delete(IRepository<Customer> repository)
         {
-            throw new NotImplementedException();
+            repository.Delete(this);
         }
 
         public void Update(IRepository<Customer> repository)
         {
-            throw new NotImplementedException();
+            if (IsValid)
+                repository.Update(this);
         }
     }
 }

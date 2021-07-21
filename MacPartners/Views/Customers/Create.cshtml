@@ -1,0 +1,291 @@
+﻿@model MacPartners.Domain.Models.Entities.Customer
+
+@{
+    ViewData["Title"] = "Novo Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Novo Cliente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div class="form-group">
+                <label class="control-label">Pessoa</label>
+                <select id="type" class="form-control">
+                    <option value="1">Jurídica</option>
+                    <option value="2">Física</option>
+                </select>
+            </div>
+
+
+            <div class="form-group company-field">
+                <label class="control-label">CNPJ</label>
+                <div class="search">
+                    <input name="companyCnpj" class="form-control form-control-lg cnpj" value="@ViewBag.CompanyCnpj" />
+                    <button class="btn btn-primary-mp btn-lg" id="btn-search-cnpj" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group company-field">
+                <label class="control-label">Razão Social</label>
+                <input name="companyName" class="form-control" value="@ViewBag.CompanyName" />
+            </div>
+            <div class="form-group company-field">
+                <label class="control-label">Nome Fantasia</label>
+                <input name="companyTradeName" class="form-control" value="@ViewBag.CompanyTradeName" />
+            </div>
+            <div class="form-group  company-field">
+                <label class="control-label">Telefone</label>
+                <input name="companyPhone" class="form-control phone" value="@ViewBag.CompanyPhone" />
+            </div>
+
+
+
+            <div class="form-group person-field">
+                <label class="control-label">CPF</label>
+                <input name="personCpf" class="form-control cpf" value="@ViewBag.PersonCpf" />
+            </div>
+            <div class="form-group person-field">
+                <label class="control-label">Nome</label>
+                <input name="personName" class="form-control" value="@ViewBag.PersonName" />
+            </div>
+            <div class="form-group person-field">
+                <label class="control-label">Sobrenome</label>
+                <input name="personLastName" class="form-control" value="@ViewBag.PersonLastName" />
+            </div>
+            <div class="form-group person-field">
+                <label class="control-label">E-mail</label>
+                <input name="personEmail" class="form-control" value="@ViewBag.PersonEmail" />
+            </div>
+            <div class="form-group person-field">
+                <label class="control-label">Telefone</label>
+                <input name="personPhone" class="form-control phone" value="@ViewBag.PersonPhone" />
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label">CEP</label>
+                <div class="search">
+                    <input name="zipCode" class="form-control form-control-lg cep" value="@ViewBag.ZipCode" />
+                    <button class="btn btn-primary-mp btn-lg" id="btn-search-cep" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Logradouro</label>
+                <input name="street" class="form-control" value="@ViewBag.Street" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Número</label>
+                <input name="number" class="form-control" value="@ViewBag.Number" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Bairro</label>
+                <input name="district" class="form-control" value="@ViewBag.District" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Complemento</label>
+                <input name="complement" class="form-control" value="@ViewBag.Complement" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Cidade</label>
+                <input name="city" class="form-control" value="@ViewBag.City" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Estado</label>
+                <input name="state" class="form-control" value="@ViewBag.State" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary-mp btn-lg" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="link-mp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z" />
+        </svg>
+        Voltar para a lista
+    </a>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/Notifications/flunt-notifications.js"></script>
+    <script src="~/js/Loaders/loader.js"></script>
+    <script src="~/js/External/jquery.mask.js" type="text/javascript"></script>
+    <script src="~/js/InputMask/input-mask.js" type="text/javascript"></script>
+
+    @* Mask Control *@
+    <script>
+        $('.cpf').mask('000.000.000-00', { reverse: true });
+        $('.cnpj').mask('00.000.000/0000-00', { reverse: true });
+        $('.cep').mask('00000-000', { reverse: true });
+
+        jQuery("input.phone")
+            .mask("(99) 99999-9999")
+            .focusout(function (event) {
+                var target, phone, element;
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+                phone = target.value.replace(/\D/g, '');
+                element = $(target);
+                element.unmask();
+                if (phone.length > 10) {
+                    element.mask("(99) 99999-9999");
+                } else {
+                    element.mask("(99) 9999-99999");
+                }
+            });
+    </script>
+
+    @* Notifications *@
+    <script>
+        $(document).ready(() => {
+            if ('@ViewBag.Status' == 'Error')
+            {
+                showFluntNotifications('@ViewBag.ErrorMessage', 'cadastrar', 'Cliente');
+            }
+        });
+    </script>
+
+    @* Fields configuration *@
+    <script>
+        $('#type').on('change', () => {
+
+            let type = $('#type').val();
+
+            if (type == 1) {
+                turnFieldsEmpty('person-field')
+                hideFields('person-field')
+                showFields('company-field')
+            } else {
+                turnFieldsEmpty('company-field')
+                hideFields('company-field')
+                showFields('person-field')
+            }
+        });
+
+        function turnFieldsEmpty(className) {
+            $('.' + className).val('');
+        }
+
+        function hideFields(className) {
+            $('.' + className).hide('');
+        }
+
+        function showFields(className) {
+            $('.' + className).show('');
+        }
+    </script>
+
+    @* Cnpj configurations *@
+    <script>
+
+        $('#btn-search-cnpj').click(() => {
+            searchCnpj();
+        });
+
+        function searchCnpj() {
+
+            setLoader($('#btn-search-cnpj'));
+
+            var cnpj = $('input[name="companyCnpj"]').val();
+
+            $.ajax({
+                url: '@Url.Action("CompanyByCnpj", "Cnpj")',
+                data: {
+                    cnpj: cnpj
+                },
+                type: 'GET',
+                success: function (data) {
+
+                    if(data.message != 'error')
+                        fillCompanyFields(data);
+                    else
+                        showFluntNotifications('empresa não encontrada', 'procurar', 'CNPJ');
+
+                    removeLoader($('#btn-search-cnpj'));
+                }
+            });
+        }
+
+        function fillCompanyFields(json_cliente) {
+            $('input[name="companyName"]').val(json_cliente.name);
+            $('input[name="companyTradeName"]').val(json_cliente.tradeName);
+            $('input[name="companyPhone"]').val(json_cliente.phone);
+            $('input[name="zipCode"]').val(json_cliente.zipCode);
+            $('input[name="district"]').val(json_cliente.district);
+            $('input[name="street"]').val(json_cliente.street);
+            $('input[name="number"]').val(json_cliente.number);
+            $('input[name="complement"]').val(json_cliente.complement);
+            $('input[name="city"]').val(json_cliente.city);
+            $('input[name="state"]').val(json_cliente.state);
+        }
+    </script>
+
+    @* CEP configuration *@
+    <script>
+
+        $('#btn-search-cep').click(() => {
+            searchCep();
+        });
+
+
+        function searchCep() {
+
+            setLoader($('#btn-search-cep'));
+
+            var par_cep = $('input[name="zipCode"]').val();
+
+            $.ajax({
+                url: '@Url.Action("AddressByCep", "Cep")',
+                data: {
+                    cep: par_cep
+                },
+                type: 'GET',
+                success: function (data) {
+
+                    if (data.message != 'error' && data.street != null)
+                        fillAddressFields(data);
+                    else
+                        showFluntNotifications('cep não encontrado', 'procurar', 'CEP');
+
+                    removeLoader($('#btn-search-cep'));
+                }
+
+            });
+        }
+
+        function fillAddressFields(jsonAddress) {
+            $('input[name="district"]').val(jsonAddress.district);
+            $('input[name="street"]').val(jsonAddress.street);
+            $('input[name="complement"]').val(jsonAddress.complement);
+            $('input[name="city"]').val(jsonAddress.city);
+            $('input[name="state"]').val(jsonAddress.state);
+
+            scrollToNumber();
+        }
+
+        function scrollToNumber() {
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("input[name='number']").offset().top
+            }, 2000);
+
+            $("input[name='number']").focus();
+        }
+    </script>
+}

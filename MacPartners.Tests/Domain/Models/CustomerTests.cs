@@ -9,6 +9,7 @@ using MacPartners.Domain.Repositories;
 using MacPartners.Domain.Models.ValueObjects;
 using MacPartners.Domain.Models.Enums;
 using MacPartners.Tests.Infra.Repositories;
+using MacPartners.Domain.Models.Entities;
 
 namespace MacPartners.Domain.Models.Tests
 {

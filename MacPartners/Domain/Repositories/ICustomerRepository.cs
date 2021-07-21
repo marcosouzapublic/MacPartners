@@ -1,5 +1,6 @@
 ﻿using MacPartners.Domain.Interfaces;
 using MacPartners.Domain.Models;
+using MacPartners.Domain.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

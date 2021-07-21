@@ -113,3 +113,28 @@ input[type=submit] {
 .nav-item{
     cursor:pointer;
 }
+
+.person-field{
+    display: none;
+}
+
+
+/*Start Search Button CSS*/
+
+.search {
+    position: relative;
+}
+
+    .search .fa-search {
+        position: absolute;
+        top: 20px;
+        left: 16px
+    }
+
+    .search button {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+/*End Search Button CSS*/

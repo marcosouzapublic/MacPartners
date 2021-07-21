@@ -1,4 +1,4 @@
-﻿using MacPartners.Domain.Models;
+﻿using MacPartners.Domain.Models.Entities;
 using MacPartners.Domain.Repositories;
 using MacPartners.Infra.Context;
 using Microsoft.EntityFrameworkCore;

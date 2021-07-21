@@ -43,7 +43,8 @@ namespace MacPartners
             services.AddControllersWithViews();
 
             services.AddDbContext<MacPartnersContext>(
-                options => options
+                options => 
+                options
                 .UseSqlServer("name = ConnectionStrings:SQLServerContext")
                 .UseLazyLoadingProxies()
             );
@@ -51,6 +52,7 @@ namespace MacPartners
             services.AddScoped<ICrypter, CrypterService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPartnerRepository, PartnerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IEmail, EmailService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

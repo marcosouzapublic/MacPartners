@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Consulta.CNPJ" Version="1.0.1" />
     <PackageReference Include="Flunt" Version="2.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0-release-20210626-04" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.5" />
@@ -15,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ViaCep" Version="3.2.19" />
   </ItemGroup>
 
   <ItemGroup>
